@@ -2,10 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin') /* Uso de Html en Webpack */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') /* Uso de Css en Webpack */
 const CopyPlugin = require('copy-webpack-plugin') /* Copiar archivos */
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin') /* minimizacion de Css */
-const TerserPlugin = require('terser-webpack-plugin') /* minimizacion de archivos */
 const Dotenv = require('dotenv-webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin') /* limpieza de archivos  */
 
 module.exports = {
     entry: './src/index.js', /* Entrada del proyecto */
@@ -15,6 +12,8 @@ module.exports = {
         /* mover los files al directori indicado */
         assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
+    mode: 'development', /* Modo desarrollo */
+    watch: true, /* Activando la configuracion de estar mirando cambios del proyecto */
     resolve: {
         extensions: ['.js'], /* Archivos de extensiones a soportar por webpack */
         alias: {/* Poniendo alias en webpack */
@@ -79,14 +78,6 @@ module.exports = {
                 }
             ]
         }),
-        new Dotenv(), /* Añadiendo variables de entorno*/
-        new CleanWebpackPlugin()
-    ],
-    optimization: {
-        minimize: true, /* Activando la minimizacion por defecto de webpack 5 */
-        minimizer: [ /* Agregando los plugins minificadores */
-            new CssMinimizerPlugin(),
-            new TerserPlugin()
-        ]
-    }
+        new Dotenv() /* Añadiendo variables de entorno*/
+    ]
 }
