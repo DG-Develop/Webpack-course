@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin') /* Uso de Html en Webpa
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') /* Uso de Css en Webpack */
 const CopyPlugin = require('copy-webpack-plugin') /* Copiar archivos */
 const Dotenv = require('dotenv-webpack')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 module.exports = {
     entry: './src/index.js', /* Entrada del proyecto */
@@ -13,7 +14,7 @@ module.exports = {
         assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
     mode: 'development', /* Modo desarrollo */
-    watch: true, /* Activando la configuracion de estar mirando cambios del proyecto */
+    devtool: 'source-map', /* Generando devtool de nuestro mapa del proyecto en  json */
     resolve: {
         extensions: ['.js'], /* Archivos de extensiones a soportar por webpack */
         alias: {/* Poniendo alias en webpack */
@@ -78,6 +79,14 @@ module.exports = {
                 }
             ]
         }),
-        new Dotenv() /* Añadiendo variables de entorno*/
-    ]
+        new Dotenv(), /* Añadiendo variables de entorno*/
+        new BundleAnalyzerPlugin()
+    ],
+    devServer: { /* Configuracion de servidor */
+        contentBase: path.join(__dirname, 'dist'), /* Carpeta donde se generan los archivos */
+        compress: true, /* Compresion de archivos */
+        historyApiFallback: true, /* Historia de lo que esta sucediendo en el navegador */
+        port: 3006,
+        open: true
+    }
 }
